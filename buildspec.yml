@@ -3,23 +3,17 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      nodejs: 20
+      nodejs: 16
     commands:
-      - npm install
-    pre_build:
-      commands:
-        - npm run lint
-    build:
-      commands:
-        - ls -la > ls_output.txt
-        - echo "Current working directory is $(pwd)"
-        - npm run build
-    post_build:
-      commands:
-        - ls -la > ls_output.txt
-        - pwd
-        - echo "do nothing"
+      - npm install -g yarn
+      - yarn install
+
+  build:
+    commands:
+      - yarn build
+
 artifacts:
   files:
     - '**/*'
+  base-directory: dist
   discard-paths: no
