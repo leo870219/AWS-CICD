@@ -11,9 +11,11 @@ phases:
         - npm run lint
     build:
       commands:
+        - pwd
         - npm run build
     post_build:
       commands:
+        - pwd
         - echo "do nothing"
 artifacts:
   files:
