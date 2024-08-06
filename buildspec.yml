@@ -1,19 +1,34 @@
 version: 0.2
-
+env:
+  variables:
+    LAMBDA_NAME: leozenglambda
+    ALIAS: stable
 phases:
   install:
     runtime-versions:
       nodejs: 20
     commands:
-      - npm install -g yarn
-      - yarn install
-
+      - yum update -y
+      - yum install zip -y
+      - yum install jq -y
+  -mkdir -p dist
   build:
     commands:
-      - yarn build
+      - zip -r lambda.zip lambda/*
+  post_build:
+    commands:
+      - echo $LAMBDA_NAME
+      - CURRENT_VERSION=$(aws lambda publish-version --function-name $LAMBDA_NAME --description "Current Version" --output json | jq -r '.Version')
+      - echo $CURRENT_VERSION
+      - aws lambda update-function-code --function-name $LAMBDA_NAME --zip-file fileb://lambda.zip
+      - TARGET_VERSION=$(aws lambda publish-version --function-name $LAMBDA_NAME | jq -r '.Version')
+      - echo $TARGET_VERSION
+      - sed -i "s/ReplaceCurrentVersion/$CURRENT_VERSION/g" appspec.yml
+      - sed -i "s/ReplaceTargetVersion/$TARGET_VERSION/g" appspec.yml
+      - cp appspec.yml dist/appspec.yml
 
 artifacts:
   files:
-    - '**/*'
+    - 'appspec.yml'
   base-directory: dist
   discard-paths: no
