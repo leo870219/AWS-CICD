@@ -29,7 +29,7 @@ phases:
       - aws deploy create-deployment
         --application-name leozengdeploy
         --deployment-group-name online
-        --s3-location bucket=leozengbucket,key="$ZIP_NAME",bundleType=YAML
+        --s3-location bucket=leozengbucket,key=appspec.yml,bundleType=YAML
 artifacts:
   files:
     - 'appspec.yml'
