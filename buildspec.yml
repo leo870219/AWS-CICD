@@ -11,7 +11,7 @@ phases:
       - yum update -y
       - yum install zip -y
       - yum install jq -y
-  -mkdir -p dist
+      - mkdir -p dist
   build:
     commands:
       - zip -r lambda.zip lambda/*
