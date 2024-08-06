@@ -26,7 +26,10 @@ phases:
       - sed -i "s/ReplaceCurrentVersion/$CURRENT_VERSION/g" appspec.yml
       - sed -i "s/ReplaceTargetVersion/$TARGET_VERSION/g" appspec.yml
       - cp appspec.yml dist/appspec.yml
-
+      - aws deploy create-deployment
+        --application-name leozengdeploy
+        --deployment-group-name online
+        --s3-location bucket=leozengbucket,key="$ZIP_NAME",bundleType=YAML
 artifacts:
   files:
     - 'appspec.yml'
