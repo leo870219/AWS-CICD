@@ -1,9 +1,9 @@
 version: 0.0
 Resources:
   - LambdaFunction:
-    Type: AWS::Lambda::Function
-    Properties:
-      Name: leozenglambda
-      Alias: stable
-      CurrentVersion: 1
-      TargetVersion: 2
+      Type: AWS::Lambda::Function
+      Properties:
+        Name: leozenglambda
+        Alias: stable
+        CurrentVersion: 1
+        TargetVersion: 2
